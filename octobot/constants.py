@@ -183,9 +183,13 @@ URL_SEPARATOR = ","
 DEFAULT_TENTACLES_PACKAGE_NAME = "OctoBot-Default-Tentacles"
 
 # logs
-LOGS_FOLDER = "logs"
+DEFAULT_LOGS_FOLDER = "logs"
+LOGS_FOLDER = os.getenv("LOGS_FOLDER", DEFAULT_LOGS_FOLDER)
 FORCED_LOG_LEVEL = os.getenv("FORCED_LOG_LEVEL", "")
 ENV_TRADING_ENABLE_DEBUG_LOGS = os_util.parse_boolean_environment_var("ENV_TRADING_ENABLE_DEBUG_LOGS", "False")
+
+# distribution
+FORCED_DISTRIBUTION = os.getenv("DISTRIBUTION")
 
 # system
 ENABLE_CLOCK_SYNCH = os_util.parse_boolean_environment_var("ENABLE_CLOCK_SYNCH", "True")
@@ -223,7 +227,7 @@ CONFIG_FOLDER = f"{OCTOBOT_FOLDER}/config"
 SCHEMA = "schema"
 CONFIG_FILE_SCHEMA = f"{CONFIG_FOLDER}/config_{SCHEMA}.json"
 PROFILE_FILE_SCHEMA = f"{CONFIG_FOLDER}/profile_{SCHEMA}.json"
-DEFAULT_CONFIG_FILE = f"{CONFIG_FOLDER}/default_config.json"
+DEFAULT_CONFIG_FILE = os.getenv("DEFAULT_CONFIG_FILE", f"{CONFIG_FOLDER}/default_config.json")
 DEFAULT_PROFILE_FILE = f"{CONFIG_FOLDER}/default_profile.json"
 DEFAULT_PROFILE_AVATAR_FILE_NAME = "default_profile.png"
 DEFAULT_PROFILE_AVATAR = f"{CONFIG_FOLDER}/{DEFAULT_PROFILE_AVATAR_FILE_NAME}"

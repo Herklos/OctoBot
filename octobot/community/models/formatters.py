@@ -21,6 +21,7 @@ import octobot.community.supabase_backend as supabase_backend
 import octobot_commons.constants as commons_constants
 import octobot_commons.logging as commons_logging
 import octobot_commons.profiles as commons_profiles
+import octobot_commons.enums as commons_enums
 import octobot_trading.enums as trading_enums
 import octobot_trading.constants as trading_constants
 import octobot_trading.personal_data as trading_personal_data
@@ -315,6 +316,24 @@ def get_tentacles_data_exchange_config(
         )
     except ImportError as err:
         raise ImportError(f"Import tentacles_exchanges failed: {err}")
+
+
+def get_deployment_error_status_from_stop_reason(
+    stop_reason: commons_enums.StopReason
+) -> backend_enums.BotDeploymentErrorsStatuses:
+    match stop_reason:
+        case commons_enums.StopReason.MISSING_API_KEY_TRADING_RIGHTS:
+            return backend_enums.BotDeploymentErrorsStatuses.MISSING_API_KEY_TRADING_RIGHTS
+        case commons_enums.StopReason.INVALID_EXCHANGE_CREDENTIALS:
+            return backend_enums.BotDeploymentErrorsStatuses.INVALID_EXCHANGE_CREDENTIALS
+        case commons_enums.StopReason.STOP_CONDITION_TRIGGERED:
+            return backend_enums.BotDeploymentErrorsStatuses.STOP_CONDITION_TRIGGERED
+        case commons_enums.StopReason.MISSING_MINIMAL_FUNDS:
+            return backend_enums.BotDeploymentErrorsStatuses.MISSING_MINIMAL_FUNDS
+        case commons_enums.StopReason.INVALID_CONFIG:
+            return backend_enums.BotDeploymentErrorsStatuses.INVALID_CONFIG
+        case _:
+            raise ValueError(f"Unhandled stop reason: {stop_reason}")
 
 
 def _get_logger():
